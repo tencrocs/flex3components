@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>	
+<mx:HBox 
+    xmlns:mx="http://www.adobe.com/2006/mxml"
+    horizontalAlign="center" 
+    verticalAlign="middle" 
+    horizontalScrollPolicy="off"
+    verticalScrollPolicy="off" 
+    horizontalGap="4"
+    creationComplete="{creationComplete_Load()}">
+    
+    <mx:Script>
+    <![CDATA[
+        import mx.core.mx_internal;
+        
+        protected function creationComplete_Load() : void {
+            cbPeriod.dataProvider = [ {label:"AM"}, {label:"PM"} ];
+            nsHours.mx_internal::inputField.editable = false;
+            nsMinutes.mx_internal::inputField.editable = false; 
+            formatStepper(nsHours);
+            formatStepper(nsMinutes);           
+        }
+            
+        protected function nsMinutes_Change() : void {
+            formatStepper(nsMinutes);
+        }
+         
+        protected function nsHours_Change() : void {
+            formatStepper(nsHours);
+        } 
+        
+        protected function formatStepper(stepper:NumericStepper) : void {
+            if(stepper.value<10) stepper.mx_internal::inputField.text = "0" + stepper.value;
+        }     
+    ]]>
+    </mx:Script>
+    
+    <mx:DateField textAlign="center" width="100%" id="dfDate"/>
+    <mx:NumericStepper minimum="1" maximum="12" id="nsHours" width="42" stepSize="1" value="1" change="{nsHours_Change()}"/>
+    <mx:NumericStepper minimum="0" maximum="59" id="nsMinutes" width="42" stepSize="1" value="0" change="{nsMinutes_Change()}"/>
+    <mx:ComboBox width="55" id="cbPeriod"></mx:ComboBox>
+</mx:HBox>
